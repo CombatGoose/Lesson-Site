@@ -138,3 +138,15 @@ p {
     display: flex;
     flex-wrap: wrap;
   }
+  .flex {
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+  }
+  .clock {
+    position: absolute;
+    left: 0px;
+  }
+  .spinner {
+    display: none;
+  }

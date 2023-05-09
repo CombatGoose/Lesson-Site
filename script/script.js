@@ -7,6 +7,41 @@ let cart = document.querySelector(".cart")
 let clearCart = document.querySelector(".clear-cart")
 let input = document.querySelector("#input")
 let main = document.querySelector(".main_wrapper")
+let clocks = document.querySelector(".clock")
+let spinner = document.querySelector(".spinner")
+
+//Format time
+const formatTime = (timeObj) => {
+    if (timeObj.hours < 10) { 
+        timeObj.hours = `0${timeObj.hours}`
+    }
+    if (timeObj.minutes < 10) { 
+        timeObj.minutes = `0${timeObj.minutes}`
+    }
+    if (timeObj.seconds < 10) { 
+        timeObj.seconds = `0${timeObj.seconds}`
+    }
+    return timeObj
+  }
+  
+// Get user's time
+let getTime = () => {
+  let timeNow = new Date()
+  timeNow = {
+      hours: timeNow.getHours(),
+      minutes: timeNow.getMinutes(),
+      seconds: timeNow.getSeconds()
+  }
+  return formatTime(timeNow)
+}
+
+const setTime = () => {
+  let time = getTime()
+  clocks.innerHTML = `${time.hours}:${time.minutes}:${time.seconds}`, 1000
+}
+
+setInterval(setTime, 1000)
+
 
 //Balance
 
@@ -22,7 +57,6 @@ const setBalance = (value = 0) => {
 const getBalance = () => {
     return parseInt(localStorage.getItem("balance"))
 }
-
 writeBalance()
 
 addMoney.addEventListener("click", () => {
@@ -38,6 +72,7 @@ let cardsStore = [
         name: "Картопля",
         price: 108,
         reality: 138,
+        number: 5,
         src: "./img/potato.jpg"
     },
     {
@@ -45,6 +80,7 @@ let cardsStore = [
         name: "Помідори",
         price: 114,
         reality: 412,
+        number: 5,
         src: "./img/tomato.jpg"
     },
     {
@@ -52,6 +88,7 @@ let cardsStore = [
         name: "Огірки",
         price: 200,
         reality: 897,
+        number: 5,
         src: "./img/cucumber.jpg"
     }
 ]
@@ -80,7 +117,7 @@ const findItemInArray = (array, id) => {
 const generateCard = () => {
     cardsStore.forEach((card) => {
         main.innerHTML += `
-        <div id="${card.id}" class="product_card">
+        <div class="block" id="${card.id}" class="product_card">
         <img src="${card.src}" alt="">
         <p class="inf">${card.name}</p>
         <p>В наявності: ${card.reality} кг</p>
@@ -90,6 +127,7 @@ const generateCard = () => {
     </div>
         `
     })
+
     let buttons = document.querySelectorAll(".button")
     buttons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -105,7 +143,12 @@ const generateCard = () => {
                         ...cardsStore[findItemInArray(cardsStore, currentId)]
                     }
                 ]
-                generateBucket()
+                spinner.style.display = "block"
+                setInterval(generateBucket, 1000)
+                const displayNone = () => {
+                    spinner.style.display = "none"
+                }
+                setInterval(displayNone, 1000)
                 setBalance(currentBalance-sum)
             } else {
                 alert("На жаль, Вам не вистачає грошей, щоб придбати цей товар, будь ласка, поповніть баланс")
@@ -120,14 +163,13 @@ const generateCard = () => {
 
  bucketStore.forEach(bucketEl => {
         cart.innerHTML += `            
-        <div id="${bucketEl.id}" class="product_card">
+        <div class="block" id="${bucketEl.id}" class="product_card">
         <img src="${bucketEl.src}" alt="">
         <p class="inf">${bucketEl.name}</p>
         <p class="sum">${bucketEl.price}</p>
         <button class="button" id="btnRemove">Видалити з кошику</button>
     </div>`
  })
-
  let buttonsDelete = document.querySelectorAll("#btnRemove")
  buttonsDelete.forEach((btn) => {
     btn.addEventListener("click", () => {

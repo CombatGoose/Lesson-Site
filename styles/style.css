@@ -1,0 +1,140 @@
+a {
+    text-decoration: none;
+    color: #4D4D4D;
+    font-weight: 500;
+    font-size: 26px;
+    margin-left: 60px;
+  }
+  
+.userBalance {
+  color: rgb(88, 222, 88);
+}
+  input {
+    margin-left: 20px;
+    color: #424242;
+  }
+  header {
+    width: 100%;
+    height: 100px;
+    box-shadow: 0px 4px 4px rgba(135, 135, 135, 0.25);
+    display: flex;
+    justify-content: center;
+  }
+ .header_wrapper {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button-container {
+    position: relative;
+    margin-top: -60px;
+  }
+  .cart {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+  }
+  .money {
+    width: 200px;
+    height: 60px;
+    background-color: rgb(45, 181, 45);
+    border: none;
+    margin-left: 100px;
+    position: absolute;
+    border: none;
+    color: white;
+    font-size: 22px;
+    transition-duration: 1s;
+    border-radius: 10px;
+  }
+  .money:hover {
+    background-color: rgb(31, 129, 31);
+    transition-duration: 1s;
+  }
+  main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 90px;
+  }
+.main_wrapper {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+  }
+ .product_card {
+    width: 286px;
+    height: 445px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+img {
+    margin-bottom: 10px;
+    height: 200px;
+    width: 100%;
+  }
+p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4D4D4D;
+    text-align: center;
+  }
+  .inf {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+.input {
+    margin-top: 10px;
+    width: 100px;
+    height: 20px;
+    color: #4D4D4D;
+}
+.sum {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #4D4D4D;
+    margin-top: 25px;
+  }
+.button {
+    width: 246px;
+    height: 45px;
+    background: rgb(31, 129, 31);
+    border-radius: 4px;
+    border: none;
+    color: white;
+    margin-top: 17px;
+    transition-duration: 1s;
+  }
+.button:hover {
+    background-color: rgb(13, 69, 13);
+    transition-duration: 1s;
+  }
+.button:disabled {
+    opacity: 0.4;
+  }
+  h3 {
+    color: #4D4D4D;
+    font-weight: 600;
+    font-size: 34px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .clear-cart {
+    color: #4D4D4D;
+    font-size: 22px;
+    text-align: center;
+  }
+  .cart {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }

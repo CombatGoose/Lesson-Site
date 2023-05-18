@@ -114,47 +114,88 @@ const findItemInArray = (array, id) => {
     return currentIndex
 }
 
+let numVal = 5
+
 const generateCard = () => {
     cardsStore.forEach((card) => {
-        main.innerHTML += `
+  
+      main.innerHTML += `
         <div class="block" id="${card.id}" class="product_card">
-        <img src="${card.src}" alt="">
-        <p class="inf">${card.name}</p>
-        <p>В наявності: ${card.reality} кг</p>
-        <input class="input" id="inputCount-${card.id}" type="text" placeholder="Кількість в кг">
-        <p class="sum">${card.price}.00 грн</p>
-        <button class="button">Додати до кошику</button>
-    </div>
-        `
-    })
+          <img src="${card.src}" alt="">
+          <p class="inf">${card.name}</p>
+          <p>В наявності: ${card.reality} кг</p>
+          <center>
+            <input class="input" id="inputCount-${card.id}" type="text" placeholder="Кількість в кг">
+            <div class="flex">
+              <button class="minus" id="minus-${card.id}">-</button>
+              <p class="num" id="num${card.id}">${numVal}</p>
+              <button class="plus" id="plus-${card.id}">+</button>
+            </div>
+          </center>
+          <p class="sum">${card.price}.00 грн</p>
+          <button class="button">Додати до кошику</button>
+        </div>
+      `;
+  
+      const minuses = document.querySelectorAll(".minus")
+      const pluses = document.querySelectorAll(".plus")
+  
+      minuses.forEach((minus) => {
+        minus.addEventListener("click", () => {
+          let numElement = minus.parentNode.querySelector(".num")
+          let numVal = parseInt(numElement.textContent)
+          if (numVal > 0) {
+            numVal--
+            numElement.textContent = numVal
+          }
+        });
+      });
+  
+      pluses.forEach((plus) => {
+        plus.addEventListener("click", () => {
+          let numElement = plus.parentNode.querySelector(".num")
+          let numVal = parseInt(numElement.textContent)
+          numVal++
+          numElement.textContent = numVal
+        });
+      });
+    });
 
     let buttons = document.querySelectorAll(".button")
     buttons.forEach((button) => {
         button.addEventListener("click", () => {
-            let currentId = parseInt(button.parentNode.id)
-            let currentBalance = parseInt(localStorage.getItem('balance'))
-            let price = cardsStore[findItemInArray(cardsStore, currentId)].price
-            let count = document.querySelector(`#inputCount-${currentId}`)
-            let sum = price * parseFloat(count.value)
-            if (currentBalance - sum >= price) {
-                bucketStore = [
-                    ...bucketStore,
-                    {
-                        ...cardsStore[findItemInArray(cardsStore, currentId)]
-                    }
-                ]
-                spinner.style.display = "block"
-                setInterval(generateBucket, 1000)
-                const displayNone = () => {
-                    spinner.style.display = "none"
-                }
-                setInterval(displayNone, 1000)
-                setBalance(currentBalance-sum)
-            } else {
-                alert("На жаль, Вам не вистачає грошей, щоб придбати цей товар, будь ласка, поповніть баланс")
+          let currentId = parseInt(button.parentNode.id)
+          let currentBalance = parseInt(localStorage.getItem('balance'))
+          let price = cardsStore[findItemInArray(cardsStore, currentId)].price
+          let count = document.querySelector(`#inputCount-${currentId}`)
+          let sum = price * parseFloat(count.value)
+          if (currentBalance - sum >= price) {
+            bucketStore = [
+              ...bucketStore,
+              {
+                ...cardsStore[findItemInArray(cardsStore, currentId)]
+              }
+            ]
+            // Decrease numVal
+            let numElement = button.parentNode.querySelector(".num")
+            let numVal = parseInt(numElement.textContent)
+            if (numVal > 0) {
+              numVal--
+              numElement.textContent = numVal
             }
+      
+            spinner.style.display = "block"
+            setInterval(generateBucket, 1000)
+            const displayNone = () => {
+              spinner.style.display = "none"
+            }
+            setInterval(displayNone, 1000)
+            setBalance(currentBalance - sum)
+          } else {
+            alert("На жаль, Вам не вистачає грошей, щоб придбати цей товар, будь ласка, поповніть баланс")
+          }
         })
-    })
+      })
 }
 
  const generateBucket = () => {
@@ -171,21 +212,31 @@ const generateCard = () => {
     </div>`
  })
  let buttonsDelete = document.querySelectorAll("#btnRemove")
+
  buttonsDelete.forEach((btn) => {
     btn.addEventListener("click", () => {
-        let currentId = parseInt(btn.parentNode.id)
-        bucketStore = [
-            ...bucketStore, 
-            {
-                ...bucketStore[findItemInArray(bucketStore, currentId)]
-            }
-        ]
-        let currentBalance = parseInt(localStorage.getItem('balance'))
-        let price = bucketStore[findItemInArray(bucketStore, currentId)].price
-        setBalance(currentBalance+price)
-        removeBucket(currentId)
+      let currentId = parseInt(btn.parentNode.id)
+      let currentBalance = parseInt(localStorage.getItem('balance'))
+      let price = bucketStore[findItemInArray(bucketStore, currentId)].price
+  
+      // Increase numVal
+      let numElement = document.querySelector(`#num${currentId}`)
+      let numVal = parseInt(numElement.textContent)
+      numVal++
+      numElement.textContent = numVal
+  
+      bucketStore = [
+        ...bucketStore, 
+        {
+            ...bucketStore[findItemInArray(bucketStore, currentId)]
+        }
+    ]
+
+      setBalance(currentBalance + price)
+      removeBucket(currentId)
     })
- })
+  })
+
 }
 
 generateCard()
